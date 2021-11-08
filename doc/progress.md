@@ -3,7 +3,7 @@ Went through the problem statements individually.
 
 ### 08/11/21
 Decided on topic: **Spam detection**.  
-Could choose to shift to sentiment analysis if necessary. 
+Could choose to shift to sentiment analysis if necessary.   
 Libraries available:  
 1. pyspark
 2. numpy
