@@ -14,3 +14,7 @@ Need to look into:
 1. Spam detection solutions
 2. Libraries for preprocessing  
 3. NLP concepts
+
+Available libraries so far:
+1. NLTK
+2. Spark NLP
