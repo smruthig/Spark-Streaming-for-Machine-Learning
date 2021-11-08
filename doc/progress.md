@@ -8,7 +8,8 @@ Libraries available:
 1. pyspark
 2. numpy
 3. sparkdl
-4. spark MLlib
+4. spark MLlib  
+
 Need to look into:    
 1. Spam detection solutions
 2. Libraries for preprocessing  
