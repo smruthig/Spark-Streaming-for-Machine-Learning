@@ -1,0 +1,76 @@
+https://nlp.johnsnowlabs.com/docs/en/quickstart
+
+------------------------------------------------------------------
+
+Long story short, if it trains on a DataFrame and produces a model, it’s an AnnotatorApproach; 
+and if it transforms one DataFrame into another DataFrame through some models, it’s an AnnotatorModel (e.g. WordEmbeddingsModel) 
+and it doesn’t take Model suffix if it doesn’t rely on a pre-trained annotator while transforming a DataFrame (e.g. Tokenizer).
+
+tokenizer = Tokenizer() \
+ .setInputCols([“document”]) \
+ .setOutputCol(“token”)
+tokenizer.fit(df).transform(df)
+
+stemmer = Stemmer() \
+ .setInputCols([“token”]) \
+ .setOutputCol(“stem”)
+stemmer.transform(df)
+
+----------------------------------------------------------------
+
+CODE FOR:
+Split text into sentences
+Tokenize
+Normalize
+Get word embeddings
+
+from pyspark.ml import Pipeline
+
+document_assembler = DocumentAssembler()\
+ .setInputCol(“text”)\
+ .setOutputCol(“document”)
+
+sentenceDetector = SentenceDetector()\
+ .setInputCols([“document”])\
+ .setOutputCol(“sentences”)
+
+tokenizer = Tokenizer() \
+ .setInputCols([“sentences”]) \
+ .setOutputCol(“token”)
+
+normalizer = Normalizer()\
+ .setInputCols([“token”])\
+ .setOutputCol(“normal”)
+
+word_embeddings=WordEmbeddingsModel.pretrained()\
+ .setInputCols([“document”,”normal”])\
+ .setOutputCol(“embeddings”)
+
+nlpPipeline = Pipeline(stages=[
+ document_assembler, 
+ sentenceDetector,
+ tokenizer,
+ normalizer,
+ word_embeddings,
+ ])
+
+pipelineModel = nlpPipeline.fit(df)
+
+-------------------------------------------------------------------------
+
+“explain_document_dl” pipeline:
+DocumentAssembler
+SentenceDetector
+Tokenizer
+LemmatizerModel
+Stemmer
+PerceptronModel
+ContextSpellCheckerModel
+WordEmbeddings (GloVe 6B 100)
+NerDLModel
+NerConverter (chunking)
+
+from sparknlp.pretrained import PretrainedPipeline
+pipeline = PretrainedPipeline(“explain_document_dl”, lang=”en”)
+transformed_df = pipeline.transform(df)
+print (transformed_df.columns)
