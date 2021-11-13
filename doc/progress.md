@@ -18,3 +18,8 @@ Need to look into:
 Available libraries so far:
 1. NLTK
 2. Spark NLP
+
+### 10/11/21
+Researched on libraries.  
+Tried to use stream.py to stream our data.  
+Tried to stream data without TCP connection (unsuccesful in understanding few concepts).  
