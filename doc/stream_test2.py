@@ -20,7 +20,7 @@ dfCSV = spark.readStream.option("sep", ",").option("header", "true").schema(user
 
 dfCSV.createOrReplaceTempView("dfCSV1")
 to_print = spark.sql("select * from dfCSV1")
-query = totalSalary.writeStream.outputMode("complete").format("console").start()
+query = to_print.writeStream.outputMode("complete").format("console").start()
 
 query.awaitTermination()
 
