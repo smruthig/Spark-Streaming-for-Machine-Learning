@@ -20,8 +20,9 @@ print('in between')
 print(ssc.getActive())
 
 ssc.awaitTermination()
-
+ssc.stop(True,True)
 print('whatever')
+ssc.close()
 ''' 
     Define the input sources by creating input DStreams.
     Define the streaming computations by applying transformation and output operations to DStreams.
