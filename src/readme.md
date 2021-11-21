@@ -14,11 +14,11 @@ Modifications to server stream.py
 (final)=>working code  
 To be used with stream_final.py(for server side)  
 
-5. client_conn_final_v1:
+5. client_conn_final_v1:  
 One working way of receiving data from server.  
 Does not terminate, throws error.  
 
-6. client_conn_final_v2
+6. client_conn_final_v2:  
 Another working way of receiving data from server.  
 Does not terminate, but waits for user to terminate. Does not throw error.  
 
