@@ -16,11 +16,6 @@ spark=SparkSession.builder.appName('sparkdf').getOrCreate()
 #We are currently getting json FILE as a DStream(check stream.py for JSON format)
 #We need to extract the JSON and create an RDD -> List of tuples [(),(),..] where each Tuple contains (<Subject>,<Message>,<Spam/Ham>)	-----> REFER LINK FOR RDD FORMAT
 #We need to pass the RDD to Dataframe creation
-#
-
-
-
-
 
 lines = ssc.socketTextStream("localhost", 6100)
 words = lines.flatMap(lambda line: line.split(";"))
