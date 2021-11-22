@@ -140,6 +140,8 @@ if __name__ == '__main__':
             _function(tcp_connection, input_file)
     else:
         _function(tcp_connection, input_file)
+        
+    tcp_connection.close()
 
 # Setup your own dataset streamer by following the examples above.
 # If you wish to stream a single newline delimited file, use streamFile()
