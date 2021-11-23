@@ -16,13 +16,14 @@ ssc = StreamingContext(sc, 1)
 spark=SparkSession.builder.appName('sparkdf').getOrCreate()
 
 lines = ssc.socketTextStream("localhost", 6100)
-x=0
-def parseJson(rdd):
+
+#x=0
+def jsonToDf(rdd):
 	global x
 	global bsize	
 	if not rdd.isEmpty():
-		print("batch no: ",x)
-		x+=1
+		#print("batch no: ",x)
+		#x+=1
 		df = spark.read.json(rdd)
 		#df.printSchema()
 		
@@ -50,50 +51,49 @@ def parseJson(rdd):
 			#duplicates removed
 			#batch_df.show(truncate=True)
 			#print(batch_df.count())
-		#batch_df.groupBy("Spam/Ham").count().orderBy(col("count").desc()).show()
-		#msg_doc = DocumentAssembler().setInputCol("Message").setOutputCol("msg_doc")
+		return batch_df
+			
+def preproc(batch_df):
+	# ENCODING Spam/ham col(didn't work):		
+	#batch_df.update("Spam/Ham = 'Spam'", { "Spam/Ham": "1" } )
+	#batch_df.update("Spam/Ham = 'Ham'", { "Spam/Ham": "0" } )
+	#batch_df.show()
 		
-		#rdd2=batch_df.rdd.map(lambda x[2]: x[2]=='Spam'?1:0)
-		#dfn=rdd2.toDF(["Subject","Message","Spam/Ham"]   )
-		#dfn.show()
+	#ENCODING Spam/ham col(worked):
+	batch_df = batch_df.withColumnRenamed("Spam/Ham","SpamHam")
+	batch_df = batch_df.withColumn("SpamHam", when(df.SpamHam == "Spam","1").when(df.SpamHam == "Ham","0").otherwise(df.SpamHam))
+	#batch_df.show()
 		
-		#batch_df.update("Spam/Ham = 'Spam'", { "Spam/Ham": "1" } )
-		#batch_df.update("Spam/Ham = 'Ham'", { "Spam/Ham": "0" } )
-		#batch_df.show()
+	#Converting to pandas-like df:
+	pdtrain = batch_df.toPandas()
+		
+	subject=pdtrain['Subject']
+	message=pdtrain['Message']
+	spamham=pdtrain['Spam/Ham']
+		
+	#COUNT VECTORIZER for Subject
+	vectorizer_sub = CountVectorizer()
+	vectorizer_sub.fit(subject)
+	print("Vocabulary for subject: ", vectorizer_sub.vocabulary_)
+	vector_sub = vectorizer_sub.transform(subject)
+	print("Encoded Subject is:")
+	print(vector_sub.toarray())
+	
+	#COUNT VECTORIZER for Message		
+	vectorizer_msg = CountVectorizer()
+	vectorizer_msg.fit(message)
+	print("Vocabulary for message: ", vectorizer_msg.vocabulary_)
+	vector_msg = vectorizer_msg.transform(message)
+	print("Encoded Message is:")
+	print(vector_msg.toarray())
 		
 
-		#dfl = batch_df.withColumn("Spam/Ham", when(df.Subject == "Spam","1").when(df.Spam/Ham == "Ham","0").otherwise(df.gender))
-		#dfl.show()
-		
-		pdtrain = batch_df.toPandas()
-		#trainseries = pdtrain['Subject'].apply(lambda x : np.array(x.toArray())).as_matrix().reshape(-1,1)
-		#print(pdtrain)
-		#print(pdtrain['Subject'])
-		#print(document)
-		
-		subject=pdtrain['Subject']
-		vectorizer = CountVectorizer()
-		vectorizer.fit(subject)
-		print("Vocabulary: ", vectorizer.vocabulary_)
-		vector = vectorizer.transform(subject)
-		print("Encoded Document is:")
-		print(vector.toarray())
-		
-		message=pdtrain['Message']	
-		vectorizer1 = CountVectorizer()
-		vectorizer1.fit(message)
-		print("Vocabulary: ", vectorizer.vocabulary_)
-		vector1 = vectorizer.transform(message)
-		print("Encoded Document is:")
-		print(vector1.toarray())
-		
-		
-		df1 = batch_df.withColumnRenamed("Spam/Ham","SpamHam")
-		dfl = df1.withColumn("SpamHam", when(df1.SpamHam == "spam","1").when(df1.SpamHam == "ham","0").otherwise(df1.SpamHam))
-		dfl.show()
 
+def parentFn(rdd):
+	batch_df = jsonToDf(rdd)
+	preproc(batch_df)
 
-lines.foreachRDD(lambda rdd: parseJson(rdd))
+lines.foreachRDD(lambda rdd: parentFn(rdd))
 
 ssc.start()
 
