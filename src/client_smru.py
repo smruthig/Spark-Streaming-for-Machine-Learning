@@ -62,7 +62,7 @@ def preproc(batch_df):
 		
 	#ENCODING Spam/ham col(worked):
 	batch_df = batch_df.withColumnRenamed("Spam/Ham","SpamHam")
-	batch_df = batch_df.withColumn("SpamHam", when(df.SpamHam == "Spam","1").when(df.SpamHam == "Ham","0").otherwise(df.SpamHam))
+	batch_df = batch_df.withColumn("SpamHam", when(batch_df.SpamHam == "Spam","1").when(batch_df.SpamHam == "Ham","0").otherwise(batch_df.SpamHam))
 	#batch_df.show()
 		
 	#Converting to pandas-like df:
@@ -70,7 +70,7 @@ def preproc(batch_df):
 		
 	subject=pdtrain['Subject']
 	message=pdtrain['Message']
-	spamham=pdtrain['Spam/Ham']
+	spamham=pdtrain['SpamHam']
 		
 	#COUNT VECTORIZER for Subject
 	vectorizer_sub = CountVectorizer()
