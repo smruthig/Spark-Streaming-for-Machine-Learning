@@ -52,6 +52,7 @@ def jsonToDf(rdd):
 			#batch_df.show(truncate=True)
 			#print(batch_df.count())
 		return batch_df
+	return None
 			
 def preproc(batch_df):
 	# ENCODING Spam/ham col(didn't work):		
@@ -91,7 +92,8 @@ def preproc(batch_df):
 
 def parentFn(rdd):
 	batch_df = jsonToDf(rdd)
-	preproc(batch_df)
+	if batch_df:
+		preproc(batch_df)
 
 lines.foreachRDD(lambda rdd: parentFn(rdd))
 
