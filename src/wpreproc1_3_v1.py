@@ -84,13 +84,14 @@ def preproc(batch_df):
 	#TOKENIZER and PUNCTUATION REMOVER for Message
 	mes_tok = [tzer.tokenize(line) for line in message]
 	print("Tokens from Message column: ",mes_tok)
-
+	
 	sub_low = []
 	mes_low = []
-	subi_low = []
-	mesi_low = []
+	#subi_low = []
+	#mesi_low = []
 	#Converting tokens to LOWERCASE for subject
 	for i in sub_tok:
+		subi_low = []
 		for j in i:
 			subi_low.append(j.lower())
 		sub_low.append(subi_low)
@@ -98,6 +99,7 @@ def preproc(batch_df):
 
 	#Converting tokens to LOWERCASE for Message
 	for i in mes_tok:
+		mesi_low = []
 		for j in i:
 			mesi_low.append(j.lower())
 		mes_low.append(mesi_low)
