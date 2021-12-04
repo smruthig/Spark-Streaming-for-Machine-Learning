@@ -8,12 +8,12 @@ from pyspark.sql.functions import from_json, col
 from pyspark.sql.functions import when
 import sys
 import numpy as np
-'''
-import nltk
+
+'''import nltk
 nltk.download('wordnet')
 nltk.download('stopwords')
-nltk.download('punkt')
-'''
+nltk.download('punkt')'''
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 from nltk.tokenize import word_tokenize  #Other tokenizers are available. We are using this one for retrieving the words and punctuations.
@@ -44,6 +44,7 @@ lines = ssc.socketTextStream("localhost", 6100)
 #MODELS
 nb = BernoulliNB()
 sgd = linear_model.SGDClassifier()
+pac = linear_model.PassiveAggressiveClassifier()
 
 #x=0
 def jsonToDf(rdd):
@@ -99,12 +100,12 @@ def preproc(batch_df):
 	subject=pdtrain['Subject']
 	message=pdtrain['Message']
 	spamham=pdtrain['SpamHam']
-	
+
 	return(subject, message, spamham)
-	
-	
+
+
 def preproc_pipeline(col):
-    
+
 	#TOKENIZER and PUNCTUATION REMOVER
 	def tokenization_punctuation(col):
 		tzer = RegexpTokenizer(r"\w+")
@@ -113,7 +114,7 @@ def preproc_pipeline(col):
 
 	#LOWERCASE
 	def lowercase(col):
-		low = []  
+		low = []
 		for i in col:
 		    inner_low = []
 		    for j in i:
@@ -131,19 +132,19 @@ def preproc_pipeline(col):
 		        inner_lem.append(lemmatizer.lemmatize(word))
 		    lem.append(inner_lem)
 		return lem
-			
-			
+
+
 	#STEMMING
 	def stemming(col):
 		s = []
 		ps = PorterStemmer()
-		for text in col:	
+		for text in col:
 		    inner_s=[]
 		    for word in text:
 		    	inner_s.append(ps.stem(word))
 		    s.append(inner_s)
 		return s
-		
+
 	#COUNT VECTORIZER
 	def count_vec(col):
 		vectorizer_sub = CountVectorizer()
@@ -152,14 +153,13 @@ def preproc_pipeline(col):
 		vector_sub = vectorizer_sub.transform(col)
 		#enc=vector_sub.toarray()
 		return (vocab, vector_sub)
-		
+
 	#HASHING VECTORIZER
 	def hash_vec(col):
-		#vectorizer = HashingVectorizer(n_features=2**8, stop_words=stopwords.words('english'))
 		vectorizer = HashingVectorizer(n_features=2**8)
 		X = vectorizer.fit_transform(col)
 		return X
-	
+
 
 	#PIPELINE OF OUR CHOICE
 	preproc_1 = stemming(lemmatization(lowercase(tokenization_punctuation(col))))
@@ -167,25 +167,69 @@ def preproc_pipeline(col):
 	#CONVERTING TO LIST OF STRINGS FROM LIST OFLIST OF WORDS(FOR CV)
 	for i in preproc_1:
 		cv.append(' '.join(i))
-		
+
 	#return cv
 	return hash_vec(cv)
+
+
+def naive_bayes(X, y, test_X, test_y):
+	nb.partial_fit(X,y,classes=np.unique(y))
+	#WHAT DOES IT DO?
+	pred=nb.predict(test_X)
+
+	#ACCURACY
+	print(nb.score(test_X,test_y))
+
+
+
+def sgd_class(X, y, test_X, test_y):
+	sgd.partial_fit(X,y,classes=np.unique(y))
+	pred=sgd.predict(test_X)
+
+	#ACCURACY
+	print(sgd.score(test_X, test_y))
+
+def pass_agg(X, y, test_X, test_y):
+	pac.partial_fit(X,y,classes=np.unique(y))
+	pred = pac.predict(test_X)
+
+	#ACCURACY
+	print(pac.score(test_X, test_y))
 
 
 def parentFn(rdd, sub_test, msg_test, spamham_test):
 	batch_df = jsonToDf(rdd)
 	if batch_df:
 		subject, message, spamham = preproc(batch_df)
-		
+		preproc_pipeline(subject)
+
 		#COUNT VEC
 		#vocab_train, preproc_sub_train = preproc_pipeline(subject)
 		#vocab_test, preproc_sub_test = preproc_pipeline(sub_test)
-		
+
 		#HASH VEC
-		#preproc_sub_train = preproc_pipeline(subject)
-		preproc_msg_train = preproc_pipeline(message)
-		#preproc_sub_test = preproc_pipeline(sub_test)
-		preproc_msg_test = preproc_pipeline(msg_test)
+		preproc_sub_train = preproc_pipeline(subject)
+		preproc_sub_test = preproc_pipeline(sub_test)
+
+		#naive_bayes(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
+		#sgd_class(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
+		pass_agg(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
+
+
+
+
+def test_fn():
+	test_data = pd.read_csv('//home/pes1ug19cs192/Desktop/BDProj/test.csv')
+	mySchema = StructType([ StructField("Subject",StringType(), True),StructField("Message", StringType(), True),StructField("Spam/Ham", StringType(), True)])
+	batch_test_df = spark.createDataFrame(test_data,schema=mySchema)
+	batch_test_df = batch_test_df.withColumnRenamed("Spam/Ham","SpamHam")
+	batch_test_df = batch_test_df.withColumn("SpamHam", when(batch_test_df.SpamHam == "Spam","1").when(batch_test_df.SpamHam == "Ham","0").otherwise(batch_test_df.SpamHam))
+	pdtest=batch_test_df.toPandas()
+	subject_test=pdtest['Subject']
+	message_test=pdtest['Message']
+	spamham_test=pdtest['SpamHam']
+	return (subject_test, message_test, spamham_test)
+
 
 
 sub_test, msg_test, spamham_test = test_fn()

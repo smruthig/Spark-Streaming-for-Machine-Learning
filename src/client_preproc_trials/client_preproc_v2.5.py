@@ -7,15 +7,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col
 from pyspark.sql.functions import when
 import sys
-import numpy as np
-'''
-import nltk
-nltk.download('wordnet')
-nltk.download('stopwords')
-nltk.download('punkt')
-'''
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import HashingVectorizer
 from nltk.tokenize import word_tokenize  #Other tokenizers are available. We are using this one for retrieving the words and punctuations.
 from nltk.tokenize import RegexpTokenizer
 from nltk.tokenize import word_tokenize, RegexpTokenizer
@@ -24,12 +16,6 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 
-from sklearn.naive_bayes import BernoulliNB
-from sklearn import linear_model
-
-
-#FOR TEST
-import pandas as pd
 
 
 bsize = int(sys.argv[1])
@@ -40,10 +26,6 @@ ssc = StreamingContext(sc, 1)
 spark=SparkSession.builder.appName('sparkdf').getOrCreate()
 
 lines = ssc.socketTextStream("localhost", 6100)
-
-#MODELS
-nb = BernoulliNB()
-sgd = linear_model.SGDClassifier()
 
 #x=0
 def jsonToDf(rdd):
@@ -99,98 +81,65 @@ def preproc(batch_df):
 	subject=pdtrain['Subject']
 	message=pdtrain['Message']
 	spamham=pdtrain['SpamHam']
-	
-	return(subject, message, spamham)
-	
-	
-def preproc_pipeline(col):
     
-	#TOKENIZER and PUNCTUATION REMOVER
-	def tokenization_punctuation(col):
-		tzer = RegexpTokenizer(r"\w+")
-		tok = [tzer.tokenize(line) for line in col]
-		return tok
+    #TOKENIZER and PUNCTUATION REMOVER
+    def tokenization_punctuation(col):
+        tzer = RegexpTokenizer(r"\w+")
+        tok = [tzer.tokenize(line) for line in col]
+        return tok
 
-	#LOWERCASE
-	def lowercase(col):
-		low = []  
-		for i in col:
-		    inner_low = []
-		    for j in i:
-		        inner_low.append(j.lower())
-		    low.append(inner_low)
-		return low
-
-	#LEMMATIZATION
-	def lemmatization(col):
-		lemmatizer = WordNetLemmatizer()
-		lem=[]
-		for text in col:
-		    inner_lem=[]
-		    for word in text:
-		        inner_lem.append(lemmatizer.lemmatize(word))
-		    lem.append(inner_lem)
-		return lem
+    #LOWERCASE
+    def lowercase(col):
+        low = []  
+        for i in col:
+            inner_low = []
+            for j in i:
+                inner_low.append(j.lower())
+            low.append(inner_low)
+        return low
+	
+    #LEMMATIZATION
+    def lemmatization(col):
+        lemmatizer = WordNetLemmatizer()
+        lem=[]
+        for text in col:
+            inner_lem=[]
+            for word in text:
+                inner_lem.append(lemmatizer.lemmatize(word))
+            lem.append(inner_lem)
+        return lem
 			
 			
 	#STEMMING
-	def stemming(col):
-		s = []
-		ps = PorterStemmer()
-		for text in col:	
-		    inner_s=[]
-		    for word in text:
-		    	inner_s.append(ps.stem(word))
-		    s.append(inner_s)
-		return s
-		
+    def stemming(col):
+        s = []
+        ps = PorterStemmer()
+        for text in col:	
+            inner_s=[]
+            for word in text:
+	    		inner_s.append(ps.stem(word))
+            s.append(inner_s)
+        return s
+        
 	#COUNT VECTORIZER
-	def count_vec(col):
-		vectorizer_sub = CountVectorizer()
-		vectorizer_sub.fit(col)
-		vocab=vectorizer_sub.vocabulary_
-		vector_sub = vectorizer_sub.transform(col)
-		#enc=vector_sub.toarray()
-		return (vocab, vector_sub)
-		
-	#HASHING VECTORIZER
-	def hash_vec(col):
-		#vectorizer = HashingVectorizer(n_features=2**8, stop_words=stopwords.words('english'))
-		vectorizer = HashingVectorizer(n_features=2**8)
-		X = vectorizer.fit_transform(col)
-		return X
-	
+    def count_vec(col):
+        vectorizer_sub = CountVectorizer()
+        vectorizer_sub.fit(col)
+        vocab=vectorizer_sub.vocabulary_
+        vector_sub = vectorizer_sub.transform(subject)
+        enc=vector_sub.toarray()
+        return (vocab, enc)
+    
+    return count_vec(stemming(lemmatization(lowercase(tokenization_punctuation(subject)))))
+    
 
-	#PIPELINE OF OUR CHOICE
-	preproc_1 = stemming(lemmatization(lowercase(tokenization_punctuation(col))))
-	cv=[]
-	#CONVERTING TO LIST OF STRINGS FROM LIST OFLIST OF WORDS(FOR CV)
-	for i in preproc_1:
-		cv.append(' '.join(i))
-		
-	#return cv
-	return hash_vec(cv)
-
-
-def parentFn(rdd, sub_test, msg_test, spamham_test):
+def parentFn(rdd):
 	batch_df = jsonToDf(rdd)
 	if batch_df:
-		subject, message, spamham = preproc(batch_df)
-		
-		#COUNT VEC
-		#vocab_train, preproc_sub_train = preproc_pipeline(subject)
-		#vocab_test, preproc_sub_test = preproc_pipeline(sub_test)
-		
-		#HASH VEC
-		#preproc_sub_train = preproc_pipeline(subject)
-		preproc_msg_train = preproc_pipeline(message)
-		#preproc_sub_test = preproc_pipeline(sub_test)
-		preproc_msg_test = preproc_pipeline(msg_test)
+		prep = preproc(batch_df)
+        print(prep)
 
-
-sub_test, msg_test, spamham_test = test_fn()
-
-lines.foreachRDD(lambda rdd: parentFn(rdd, sub_test, msg_test, spamham_test))
+lines.foreachRDD(lambda rdd: parentFn(rdd))
 
 ssc.start()
 
