@@ -181,7 +181,7 @@ def naive_bayes(X, y, test_X, test_y):
 
 
 
-def sgd(X, y, test_X, test_y):
+def sgd_class(X, y, test_X, test_y):
 	sgd.partial_fit(X,y,classes=np.unique(y))
 	pred=sgd.predict(test_X)
 	
@@ -204,7 +204,7 @@ def parentFn(rdd, sub_test, msg_test, spamham_test):
 		preproc_sub_test = preproc_pipeline(sub_test)
 		
 		#naive_bayes(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-		sgd(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
+		sgd_class(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
 		
 
 
