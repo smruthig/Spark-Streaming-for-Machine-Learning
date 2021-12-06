@@ -1,0 +1,85 @@
+NAIVE BAYES
+NO PARAMETERS
+TRAIN BATCH SIZE 50
+TEST BATCH SIZE 500
+
+<pyspark.streaming.context.StreamingContext object at 0x7f5c5274aa60>
+before call
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.952
+Metrics for Naive-Bayes
+
+Confusion matrix : [[200  24]
+ [  0 276]]
+Accuracy : 0.952
+Precision : 0.92
+F1 : 0.9583333333333334
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.948
+Metrics for Naive-Bayes
+
+Confusion matrix : [[240  26]
+ [  0 234]]
+Accuracy : 0.948
+Precision : 0.9
+F1 : 0.9473684210526316
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.95
+Metrics for Naive-Bayes
+
+Confusion matrix : [[229  25]
+ [  0 246]]
+Accuracy : 0.95
+Precision : 0.9077490774907749
+F1 : 0.9516441005802707
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.96
+Metrics for Naive-Bayes
+
+Confusion matrix : [[204  20]
+ [  0 276]]
+Accuracy : 0.96
+Precision : 0.9324324324324325
+F1 : 0.965034965034965
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.972
+Metrics for Naive-Bayes
+
+Confusion matrix : [[214  14]
+ [  0 272]]
+Accuracy : 0.972
+Precision : 0.951048951048951
+F1 : 0.974910394265233
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.964
+Metrics for Naive-Bayes
+
+Confusion matrix : [[215  18]
+ [  0 267]]
+Accuracy : 0.964
+Precision : 0.9368421052631579
+F1 : 0.967391304347826
+Recall : 1.0
