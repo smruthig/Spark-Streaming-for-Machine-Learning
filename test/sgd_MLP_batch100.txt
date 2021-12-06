@@ -2,7 +2,7 @@ BATCH SIZE = 100
 SUBJECT COLUMN
 HASH VECTORISER n_features = 2 ** 8
 PREPROC PIPELINE = hash vec + stemming(lemmatization(lowercase(tokenization_punctuation(col))))
-HYPER PARAMETERS: MLT WITH LOSS='perceptron' LEARNING RATE='constant' eta0=1
+HYPER PARAMETERS: MLP WITH LOSS='perceptron' LEARNING RATE='constant' eta0=1
 
 
 SCORE 0.8861209964412812
@@ -2126,14 +2126,3 @@ F1 SCORE 0.9966017917825147
 CONF_MATRIX [[1613   11]
  [   0 1748]]
 RECALL 0.9932266009852216
-Traceback (most recent call last):
-  File "/home/pes1ug19cs513/BigData/Project/batch_wise_metrics.py", line 313, in <module>
-    ssc.awaitTermination()
-  File "/opt/spark/python/lib/pyspark.zip/pyspark/streaming/context.py", line 199, in awaitTermination
-  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1303, in __call__
-  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1033, in send_command
-  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1200, in send_command
-  File "/usr/lib/python3.8/socket.py", line 669, in readinto
-    return self._sock.recv_into(b)
-  File "/opt/spark/python/lib/pyspark.zip/pyspark/context.py", line 285, in signal_handler
-KeyboardInterrupt
