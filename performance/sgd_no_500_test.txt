@@ -1,0 +1,85 @@
+SGD
+NO PARAMETERS
+TRAIN DATA BATCH SIZE 500
+TEST DATA BATCH SIZE 500
+
+<pyspark.streaming.context.StreamingContext object at 0x7f0be4050a60>
+before call
+**************SGD*****************
+
+Scores for each batch
+
+0.998
+Metrics for SGD
+
+Confusion matrix : [[223   1]
+ [  0 276]]
+Accuracy : 0.998
+Precision : 0.9963898916967509
+F1 : 0.9981916817359855
+Recall : 1.0
+**************SGD*****************
+
+Scores for each batch
+
+0.994
+Metrics for SGD
+
+Confusion matrix : [[263   3]
+ [  0 234]]
+Accuracy : 0.994
+Precision : 0.9873417721518988
+F1 : 0.9936305732484078
+Recall : 1.0
+**************SGD*****************
+
+Scores for each batch
+
+0.998
+Metrics for SGD
+
+Confusion matrix : [[253   1]
+ [  0 246]]
+Accuracy : 0.998
+Precision : 0.9959514170040485
+F1 : 0.9979716024340771
+Recall : 1.0
+**************SGD*****************
+
+Scores for each batch
+
+1.0
+Metrics for SGD
+
+Confusion matrix : [[224   0]
+ [  0 276]]
+Accuracy : 1.0
+Precision : 1.0
+F1 : 1.0
+Recall : 1.0
+**************SGD*****************
+
+Scores for each batch
+
+0.994
+Metrics for SGD
+
+Confusion matrix : [[225   3]
+ [  0 272]]
+Accuracy : 0.994
+Precision : 0.9890909090909091
+F1 : 0.9945155393053016
+Recall : 1.0
+**************SGD*****************
+
+Scores for each batch
+
+0.998
+Metrics for SGD
+
+Confusion matrix : [[232   1]
+ [  0 267]]
+Accuracy : 0.998
+Precision : 0.996268656716418
+F1 : 0.9981308411214954
+Recall : 1.0
