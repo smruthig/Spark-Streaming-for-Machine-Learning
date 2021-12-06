@@ -47,7 +47,7 @@ lines = ssc.socketTextStream("localhost", 6100)
 nb = pickle.load(open(nb_path, 'rb'))
 sgd = pickle.load(open(sgd_path, 'rb'))
 pac = pickle.load(open(pac_path, 'rb'))
-clust = pickle.load(open(pac_path, 'rb'))
+clust = pickle.load(open(clust_path, 'rb'))
 
 def jsonToDf(rdd):
 	global x
