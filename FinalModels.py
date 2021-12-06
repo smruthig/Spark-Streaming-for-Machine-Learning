@@ -32,7 +32,7 @@ from sklearn.cluster import MiniBatchKMeans
 
 
 #FOR TEST
-import pandas as pd
+#import pandas as pd
 
 
 bsize = int(sys.argv[1])
@@ -190,69 +190,68 @@ def preproc_pipeline(col):
 	return hash_vec(cv)
 
 
-def naive_bayes(X, y, test_X, test_y):
+def naive_bayes(X, y):
 	nb.partial_fit(X,y,classes=np.unique(y))
 
-	pred=nb.predict(test_X)
+	#pred=nb.predict(test_X)
 	
 	#ACCURACY
-	print("SCORE", nb.score(test_X,test_y))
+	#print("SCORE", nb.score(test_X,test_y))
 	
 	#METRICS
-	metrics_score(test_y,pred)
+	#metrics_score(test_y,pred)
 	
 	#Pickle
 	pickle.dump(nb, open(filename_nb, 'wb'))
 
-def sgd_class(X, y, test_X, test_y):
+def sgd_class(X, y):
 	sgd.partial_fit(X,y,classes=np.unique(y))
 	
-	pred=sgd.predict(test_X)
+	#pred=sgd.predict(test_X)
 	
 	#ACCURACY
-	print("SCORE", sgd.score(test_X,test_y))
+	#print("SCORE", sgd.score(test_X,test_y))
 	
 	#METRICS
-	metrics_score(test_y,pred)
+	#metrics_score(test_y,pred)
 	
 	#Pickle
 	pickle.dump(sgd, open(filename_sgd, 'wb'))
 
-def pass_agg(X, y, test_X, test_y):
+def pass_agg(X, y):
 	pac.partial_fit(X,y,classes=np.unique(y))
 	
-	pred = pac.predict(test_X)
+	#pred = pac.predict(test_X)
 	
 	#ACCURACY
-	print("SCORE", pac.score(test_X,test_y))
+	#print("SCORE", pac.score(test_X,test_y))
 	
 	#METRICS
-	metrics_score(test_y,pred)
+	#metrics_score(test_y,pred)
 	
 	#Pickle
 	pickle.dump(pac, open(filename_pac, 'wb'))
 
 
-def clusters(X,y,test_X,test_y):
+def clusters(X,y):
 	clust.partial_fit(X,y)
 	
-	pred = clust.predict(test_X)
+	#pred = clust.predict(test_X)
 
 	#ACCURACY
-	print("SCORE", clust.score(test_X,test_y))
+	#print("SCORE", clust.score(test_X,test_y))
 	
 	#METRICS
-	metrics_score(test_y,pred)
+	#metrics_score(test_y,pred)
 	
 	#Pickle
 	pickle.dump(clust, open(filename_kmeans, 'wb'))
 
 
-def parentFn(rdd, sub_test, msg_test, spamham_test):
+def parentFn(rdd):
 	batch_df = jsonToDf(rdd)
 	if batch_df:
 		subject, message, spamham = preproc(batch_df)
-		preproc_pipeline(subject)
 
 		#COUNT VEC
 		#vocab_train, preproc_sub_train = preproc_pipeline(subject)
@@ -260,17 +259,16 @@ def parentFn(rdd, sub_test, msg_test, spamham_test):
 
 		#HASH VEC
 		preproc_sub_train = preproc_pipeline(subject)
-		preproc_sub_test = preproc_pipeline(sub_test)
+		#preproc_sub_test = preproc_pipeline(sub_test)
 
-		naive_bayes(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-		#pred_metrics=naive_bayes(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-		#sgd_class(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-		#pass_agg(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-		#y_true_metrics=spamham_test
-		#clusters(preproc_sub_train, spamham, preproc_sub_test, spamham_test)
-
+		naive_bayes(preproc_sub_train, spamham)
+		pred_metrics=naive_bayes(preproc_sub_train, spamham)
+		sgd_class(preproc_sub_train, spamham)
+		pass_agg(preproc_sub_train, spamham)
+		clusters(preproc_sub_train, spamham)
 
 
+'''
 def test_fn():
 	test_data = pd.read_csv('/home/pes1ug19cs192/Desktop/BDProj/test.csv')
 	mySchema = StructType([ StructField("Subject",StringType(), True),StructField("Message", StringType(), True),StructField("Spam/Ham", StringType(), True)])
@@ -282,7 +280,7 @@ def test_fn():
 	message_test=pdtest['Message']
 	spamham_test=pdtest['SpamHam']
 	return (subject_test, message_test, spamham_test)
-
+'''
 
 def metrics_score(y_true, y_pred):
 	accuracy = accuracy_score(y_true, y_pred)   #accuracy
@@ -300,9 +298,9 @@ def metrics_score(y_true, y_pred):
 
 
 
-sub_test, msg_test, spamham_test = test_fn()
+#sub_test, msg_test, spamham_test = test_fn()
 
-lines.foreachRDD(lambda rdd: parentFn(rdd, sub_test, msg_test, spamham_test))
+lines.foreachRDD(lambda rdd: parentFn(rdd))
 
 ssc.start()
 
