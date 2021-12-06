@@ -1,0 +1,46 @@
+PAC
+SHUFFLE  = TRUE, WARM START = TRUE
+TRAIN DATA BATCH SIZE 100
+TEST DATA BATCH SIZE 500
+
+<pyspark.streaming.context.StreamingContext object at 0x7facfd352a60>
+before call
+**************PAC*****************
+
+Scores for each batch
+
+0.998
+Metrics for PAC
+
+Confusion matrix : [[223   1]
+ [  0 276]]
+Accuracy : 0.998
+Precision : 0.9963898916967509
+F1 : 0.9981916817359855
+Recall : 1.0
+**************PAC*****************
+
+Scores for each batch
+
+0.992
+Metrics for PAC
+
+Confusion matrix : [[262   4]
+ [  0 234]]
+Accuracy : 0.992
+Precision : 0.9831932773109243
+F1 : 0.9915254237288135
+Recall : 1.0
+**************PAC*****************
+
+Scores for each batch
+
+0.998
+Metrics for PAC
+
+Confusion matrix : [[253   1]
+ [  0 246]]
+Accuracy : 0.998
+Precision : 0.9959514170040485
+F1 : 0.9979716024340771
+Recall : 1.0
