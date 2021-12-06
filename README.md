@@ -14,6 +14,7 @@ The instructions to run the streaming are:
 
   
   Design Details-
+	
 ●We have chosen to take in the streaming dataset and its batch size as command line arguments.
 ●In our code receiving the RDD through the TCP socket (we have chosen port 6100), we convert each batch to a dataframe before taking any actions on it.
 ●For convenience, we change all ‘Spam’ entries to 1 and ‘Ham’ to 0 in the Spam/Ham column.
