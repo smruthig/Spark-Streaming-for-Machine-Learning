@@ -1,0 +1,46 @@
+NAIVE BAYES
+ALPHA = 2, FIT PRIOR FALSE
+TRAIN BATCH SIZE 100
+TEST BATCH SIZE 500
+
+<pyspark.streaming.context.StreamingContext object at 0x7f9a34f9c1c0>
+before call
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.95
+Metrics for Naive-Bayes
+
+Confusion matrix : [[199  25]
+ [  0 276]]
+Accuracy : 0.95
+Precision : 0.9169435215946844
+F1 : 0.9566724436741768
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.946
+Metrics for Naive-Bayes
+
+Confusion matrix : [[239  27]
+ [  0 234]]
+Accuracy : 0.946
+Precision : 0.896551724137931
+F1 : 0.9454545454545454
+Recall : 1.0
+**************NAIVE-BAYES*****************
+
+Scores for each batch
+
+0.95
+Metrics for Naive-Bayes
+
+Confusion matrix : [[229  25]
+ [  0 246]]
+Accuracy : 0.95
+Precision : 0.9077490774907749
+F1 : 0.9516441005802707
+Recall : 1.0
