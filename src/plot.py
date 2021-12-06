@@ -32,7 +32,7 @@ def multiple_bar_chart(x,y1,y2,y3,y4):
 		plt.bar(x-0.2, y1, width, color='cyan')
 		plt.bar(x, y2, width, color='orange')
 		plt.bar(x+0.2, y3, width, color='green')
-		plt.bar(x+0.2, y3, width, color='blue')
+		plt.bar(x+0.2, y4, width, color='blue')
 		plt.xticks(x, ['Naive Bayes', 'SGD', 'PAC'])
 		plt.xlabel("Models")
 		plt.ylabel("Metrics")
