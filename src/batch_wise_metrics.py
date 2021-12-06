@@ -239,7 +239,7 @@ def clusters(X,y,test_X,test_y):
 	pred = clust.predict(test_X)
 
 	#ACCURACY
-	print("SCORE", nb.score(test_X,test_y))
+	print("SCORE", clust.score(test_X,test_y))
 	
 	#METRICS
 	metrics_score(test_y,pred)
