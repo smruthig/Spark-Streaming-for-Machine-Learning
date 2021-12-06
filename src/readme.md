@@ -1,7 +1,7 @@
-1. final_models:
+1. Final_models:
 Final file containing the streaming, preprocessing and model pipeline for the incoming streamed dataset.
 
-2. metrics:
+2. Metrics:
 Final file containing the metrics function to evaluate the incremental models.
 
 STAGES FINAL 
