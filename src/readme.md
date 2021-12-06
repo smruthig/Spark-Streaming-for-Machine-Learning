@@ -1,4 +1,4 @@
-1. Finalmodels:
+1. FinalModels:
 Final file containing the streaming, preprocessing and model pipeline for the incoming streamed dataset.
 
 2. Metrics:
