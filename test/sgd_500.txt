@@ -1,0 +1,48 @@
+<pyspark.streaming.context.StreamingContext object at 0x7fc670c96b80>
+before call []
+SCORE 0.9694543297746144
+SCORE 0.986061684460261
+SCORE 0.9813167259786477
+SCORE 0.9833926453143536
+SCORE 0.9922894424673784
+SCORE 0.9952550415183867
+SCORE 0.9881376037959668
+SCORE 0.9943653618030842
+SCORE 0.9925860023724793
+SCORE 0.9961447212336892
+SCORE 0.9955516014234875
+SCORE 0.9955516014234875
+SCORE 0.9961447212336892
+SCORE 0.99644128113879
+SCORE 0.9967378410438908
+SCORE 0.9967378410438908
+SCORE 0.9961447212336892
+SCORE 0.99644128113879
+SCORE 0.99644128113879
+SCORE 0.99644128113879
+SCORE 0.9961447212336892
+SCORE 0.9967378410438908
+SCORE 0.9967378410438908
+SCORE 0.9967378410438908
+SCORE 0.99644128113879
+SCORE 0.99644128113879
+SCORE 0.9970344009489917
+SCORE 0.99644128113879
+SCORE 0.9970344009489917
+SCORE 0.9961447212336892
+SCORE 0.99644128113879
+SCORE 0.9967378410438908
+SCORE 0.99644128113879
+SCORE 0.99644128113879
+SCORE 0.9967378410438908
+Traceback (most recent call last):
+  File "/home/pes1ug19cs513/BigData/Project/batch_wise_metrics.py", line 313, in <module>
+    ssc.awaitTermination()
+  File "/opt/spark/python/lib/pyspark.zip/pyspark/streaming/context.py", line 199, in awaitTermination
+  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1303, in __call__
+  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1033, in send_command
+  File "/opt/spark/python/lib/py4j-0.10.9-src.zip/py4j/java_gateway.py", line 1200, in send_command
+  File "/usr/lib/python3.8/socket.py", line 669, in readinto
+    return self._sock.recv_into(b)
+  File "/opt/spark/python/lib/pyspark.zip/pyspark/context.py", line 285, in signal_handler
+KeyboardInterrupt
