@@ -17,9 +17,9 @@ The instructions to run the streaming are:
 	
 ●We have chosen to take in the streaming dataset and its batch size as command line arguments.
 
-	●In our code receiving the RDD through the TCP socket (we have chosen port 6100), we convert each batch to a dataframe before taking any actions on it.
+●In our code receiving the RDD through the TCP socket (we have chosen port 6100), we convert each batch to a dataframe before taking any actions on it.
 
-	●For convenience, we change all ‘Spam’ entries to 1 and ‘Ham’ to 0 in the Spam/Ham column.
+●For convenience, we change all ‘Spam’ entries to 1 and ‘Ham’ to 0 in the Spam/Ham column.
 ●We convert the dataframe into a pandas-like dataframe for easy feature extraction, and then proceed with preprocessing.
 ●We have utilised Python’s NLTK library for standard preprocessing functions - tokenizing, lemmatizing, stemming. From sklearn, we have used the HashVectorizer function to obtain frequencies of words.
 ●Our modelling is done using sklearn, and incremental learning has been implemented through the partial_fit() function that is present in the same.
