@@ -308,7 +308,6 @@ lines.foreachRDD(lambda rdd: parentFn(rdd, sub_test, msg_test, spamham_test))
 ssc.start()
 
 print(ssc.getActive())
-print("before call",pred_metrics)
 #metrics_score(y_true_metrics, pred_metrics)
 ssc.awaitTermination()
 
