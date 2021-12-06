@@ -1,3 +1,10 @@
+1. final_models:
+Final file containing the streaming, preprocessing and model pipeline for the incoming streamed dataset.
+
+2. metrics:
+Final file containing the metrics function to evaluate the incremental models.
+
+STAGES FINAL 
 1. Client_df_trials:  
 Trial files to convert the received data into dataframe of correct format  
   
