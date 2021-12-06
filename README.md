@@ -50,10 +50,15 @@ Surface level implementation details about each unit-
 	6.Hash vectorizer - Used to map every word to a numerical value as a vector/array
 
 ●Incremental Learning
-	1.partial_fit()  
+	
+	1.partial_fit() 
+	
 		●incrementally fits on batches of samples
+	
 		●This method is called consecutively for different chunks of the dataset so as to learn incrementally
+	
 		●Each time it updates the model with the incremental data
+	
 	2.Pickle files: Each time the updated models are stored and retrieved from these files
 
 ●Modelling - For each of our models (Bernoulli NB, SGD and PAC), we have first used partial_fit to fit each batch incrementally. Then, we’ve used predict() on the test data to get the predicted Spam/Ham column. After that, we use score() to obtain the accuracy of the predicted values against the true values.
