@@ -36,6 +36,7 @@ The instructions to run the streaming are:
 
 
 Surface level implementation details about each unit-
+
 ●Streaming the data - We used the stream.py file provided to take in the train and test datasets for the respective programs. This streaming is done through a TCP socket. The batch size is taken as a command line argument.
 
 ●Preprocessing Techniques
