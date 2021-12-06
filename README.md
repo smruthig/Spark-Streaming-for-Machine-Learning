@@ -20,13 +20,18 @@ The instructions to run the streaming are:
 ●In our code receiving the RDD through the TCP socket (we have chosen port 6100), we convert each batch to a dataframe before taking any actions on it.
 
 ●For convenience, we change all ‘Spam’ entries to 1 and ‘Ham’ to 0 in the Spam/Ham column.
+
 ●We convert the dataframe into a pandas-like dataframe for easy feature extraction, and then proceed with preprocessing.
+
 ●We have utilised Python’s NLTK library for standard preprocessing functions - tokenizing, lemmatizing, stemming. From sklearn, we have used the HashVectorizer function to obtain frequencies of words.
+
 ●Our modelling is done using sklearn, and incremental learning has been implemented through the partial_fit() function that is present in the same.
+
 ●The three algorithms we have modelled are -
 	a.Naive Bayes (Bernoulli - for binary classification)
 	b.Stochastic Gradient Descent (SGD)
 	c.Passive Aggressive Classifier
+	
 ●All these algorithms are available in scikit-learn and support incremental learning.
 
 
@@ -56,10 +61,14 @@ Surface level implementation details about each unit-
 
 
 Reason behind design decisions-
+	
 ●The preprocessing pipeline consists of standard NLP preprocessing techniques, aimed at facilitating predictions and improving the accuracy of our models, using NLTK. The hash vectorizer is used to convert to numerical form and to limit the number of features.
+	
 ●Incremental learning is implemented using scikit-learn, due to its ease-of-use and it’s in-built classification modelling functions. We used partial_fit() to ensure incremental learning with each batch.
+	
 ●All the models we chose are compatible with incremental learning. 
 	○Naive Bayes is one of the most popularly used text classification models. It decreases complexity of computation due to its naivety. In streaming analysis in big data, we try to obtain approximate solutions in a short time instead of exact solutions, for which Naive Bayes is an optimal choice.
 	○SGD is beneficial in minimising the loss function.
 	○The PAC algorithm is generally used for large-scale learning, which is why we have implemented it.
+	
 ●The MiniBatchKMeans method from scikit facilitates incremental clustering.
