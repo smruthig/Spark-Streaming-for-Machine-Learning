@@ -262,7 +262,6 @@ def parentFn(rdd):
 		#preproc_sub_test = preproc_pipeline(sub_test)
 
 		naive_bayes(preproc_sub_train, spamham)
-		pred_metrics=naive_bayes(preproc_sub_train, spamham)
 		sgd_class(preproc_sub_train, spamham)
 		pass_agg(preproc_sub_train, spamham)
 		clusters(preproc_sub_train, spamham)
