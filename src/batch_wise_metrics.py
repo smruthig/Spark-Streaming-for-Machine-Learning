@@ -55,7 +55,6 @@ clust = MiniBatchKMeans(n_clusters = 2)
 pred_metrics=[]
 y_true_metrics=[]
 count = 0
-f=open("Output_of_metrics.txt","a")
 
 
 #Pickle
