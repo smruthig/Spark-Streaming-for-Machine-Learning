@@ -17,6 +17,19 @@
 </p>
 <hr>
 
+## Quick Links
+
+- [Overview](#overview)
+- [Instructions to Run the Streaming](#instructions-to-run-the-streaming)
+- [Design Details](#design-details)
+  - [Streaming Data and Preprocessing](#streaming-data-and-preprocessing)
+  - [Modelling and Incremental Learning](#modelling-and-incremental-learning)
+  - [Model Algorithms](#model-algorithms)
+  - [Surface Level Implementation Details](#surface-level-implementation-details-about-each-unit)
+  - [Reason Behind Design Decisions](#reason-behind-design-decisions)
+ 
+## Overview
+
 This project is aimed at trying to classify emails to spam and ham categories using ML algorithms on Big Data.  
 The dataset used for training is provided in the folder "data".  
 The link for the original dataset is provided here:  
@@ -30,7 +43,7 @@ The data is being streamed and read on-the-go from port 6100 on localhost using 
 4. Run `/opt/spark/bin/spark-submit '<path>/stream_test_final_v1.py' localhost 6100`
 
   
-##  Design Details-
+##  Design Details
 	
 ### Streaming Data and Preprocessing
 
